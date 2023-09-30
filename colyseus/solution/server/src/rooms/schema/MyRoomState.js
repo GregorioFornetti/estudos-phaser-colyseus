@@ -7,6 +7,7 @@ export class Player extends schema.Schema {
 schema.defineTypes(Player, {
     x: "number",
     y: "number",
+    angle: "number"
 });
 
 

@@ -1,6 +1,7 @@
 import { Room } from "@colyseus/core";
 import { MyRoomState } from "./schema/MyRoomState.js";
 import { Player } from "./schema/MyRoomState.js";
+import { directions, getAngle } from "../directions.js";
 
 export class MyRoom extends Room {
   maxClients = 4;
@@ -35,6 +36,11 @@ export class MyRoom extends Room {
         } else if (input.down) {
           player.y += velocity;
         }
+
+        const newAngle = getAngle(input);
+        if (newAngle !== null) {
+          player.angle = newAngle
+        }
       });
   }
 
@@ -50,6 +56,10 @@ export class MyRoom extends Room {
     // place Player at a random position
     player.x = (Math.random() * mapWidth);
     player.y = (Math.random() * mapHeight);
+
+    // assign up direction
+    player.angle = directions.UP;
+
 
     // place player in the map of players by its sessionId
     // (client.sessionId is unique per connection!)

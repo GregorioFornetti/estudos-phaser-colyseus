@@ -2,7 +2,6 @@ import { Client, Room } from "colyseus.js";
 import Phaser from "phaser";
 import EnemyShip from "./assets/ship_0001.png"
 import PlayerShip from "./assets/ship_0000.png"
-import Bullet from "./assets/bullet.png"
 
 // custom scene class
 export class GameScene extends Phaser.Scene {
@@ -19,7 +18,8 @@ export class GameScene extends Phaser.Scene {
     cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
 
     preload() {
-      this.load.image('ship_0001', PlayerShip);
+      this.load.image('player_ship', PlayerShip);
+      this.load.image('enemy_ship', EnemyShip);
       this.cursorKeys = this.input.keyboard.createCursorKeys();
     }
 
@@ -46,7 +46,14 @@ export class GameScene extends Phaser.Scene {
       });
 
       this.room.state.players.onAdd((player, sessionId) => {
-          const entity = this.physics.add.image(player.x, player.y, 'ship_0001');
+          let entity
+          if (this.room.sessionId === sessionId) {
+            entity = this.physics.add.image(player.x, player.y, 'player_ship');
+          } else {
+            entity = this.physics.add.image(player.x, player.y, 'enemy_ship');
+          }
+          console.log(player.angle)
+          entity.angle = player.angle
       
           // keep a reference of it on `playerEntities`
           this.playerEntities[sessionId] = entity;
@@ -56,6 +63,7 @@ export class GameScene extends Phaser.Scene {
               // update local position immediately
               entity.x = player.x;
               entity.y = player.y;
+              entity.angle = player.angle;
           });
       
           // Alternative, listening to individual properties:
