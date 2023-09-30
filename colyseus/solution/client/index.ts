@@ -52,7 +52,6 @@ export class GameScene extends Phaser.Scene {
           } else {
             entity = this.physics.add.image(player.x, player.y, 'enemy_ship');
           }
-          console.log(player.angle)
           entity.angle = player.angle
       
           // keep a reference of it on `playerEntities`
