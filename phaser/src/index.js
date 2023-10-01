@@ -12,6 +12,9 @@ import Part8 from './parts/part8';
 import Part9 from './parts/part9';
 import Part10 from './parts/part10';
 
+import YourSolution from './your-solution';
+import PossibleSolution from './possible-solution';
+
 const config = {
     type: Phaser.AUTO,
     parent: 'phaser-example',
